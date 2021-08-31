@@ -1,6 +1,9 @@
 # The documents to search through
 docs/
 
+# The index we're building
+index/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

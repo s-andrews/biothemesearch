@@ -2,6 +2,7 @@
 import re
 import requests
 from pathlib import Path
+import sys
 
 def main():
     url_text = """
@@ -54,13 +55,17 @@ def process_url(url):
         if outfile.exists():
             continue
 
-        with open(f"docs/{name}_{match.group(1)}.txt","w") as out:
-            print(get_pubmed(match.group(1)),file=out)
+        with open(f"../docs/{name}_{match.group(1)}.txt","w",encoding="UTF-8") as out:
+             out.write(get_pubmed(match.group(1)))
+        
 
 
 def get_pubmed(pmid):
-    return requests.get(f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id={pmid}&tool=themesearch&email=simon.andrews@babraham.ac.uk)").content.decode("UTF-8")
+    content = requests.get(f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id={pmid}&tool=themesearch&email=simon.andrews@babraham.ac.uk&retmode=xml").content
 
+    text = content.decode("UTF-8")
+
+    return(text)
 
 
 if __name__ == "__main__":

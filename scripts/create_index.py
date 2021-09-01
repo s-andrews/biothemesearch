@@ -1,5 +1,5 @@
 from whoosh import index
-from whoosh.fields import Schema, TEXT
+from whoosh.fields import Schema, TEXT, ID
 from whoosh.analysis import StemmingAnalyzer
 from pathlib import Path
 import xml.etree.ElementTree as ET
@@ -15,10 +15,10 @@ def main():
 
 
 def create_index(docs, indexd):
-
     schema = Schema(
             person=TEXT(stored=True),
             title=TEXT(stored=True),
+            pmid=ID(stored=True),
             abstract=TEXT(analyzer=StemmingAnalyzer(), stored=True)
             )
 
@@ -30,20 +30,30 @@ def create_index(docs, indexd):
     doclist = docs.iterdir()
 
     for doc in doclist:
+        filename = doc.stem
+
+        name,pmid = filename.split("_")
+
+        name = name.replace("-"," ").title()
+
         docdata = parse_doc(doc)
+        writer.add_document(person="simon",title=docdata["title"],abstract=docdata["abstract"])
 
 
 def parse_doc(file):
-    print(file)
     tree = ET.parse(file)
     root = tree.getroot().find("PubmedArticle").find("MedlineCitation")
 
     article = root.find("Article")
     title = article.find("ArticleTitle").text
-    print(title)
 
-    abstract = article.find("Abstract").find("AbstractText").text
-    print(abstract)
+    abstract_node = article.find("Abstract")
+    abstract_text = ""
+
+    if abstract_node is not None:
+        abstract_text = abstract_node.find("AbstractText").text
+
+    return {"title": title, "abstract":abstract_text}
 
 
 

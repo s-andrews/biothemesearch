@@ -39,6 +39,7 @@ def create_index(docs, indexd):
         docdata = parse_doc(doc)
         writer.add_document(pmid=pmid,person=name,title=docdata["title"],abstract=docdata["abstract"])
 
+    writer.commit()
 
 def parse_doc(file):
     tree = ET.parse(file)
@@ -46,6 +47,9 @@ def parse_doc(file):
 
     article = root.find("Article")
     title = article.find("ArticleTitle").text
+
+    if title is None:
+        raise ValueError("No title for "+str(file))
 
     abstract_node = article.find("Abstract")
     abstract_text = ""

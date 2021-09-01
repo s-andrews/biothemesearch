@@ -37,7 +37,7 @@ def create_index(docs, indexd):
         name = name.replace("-"," ").title()
 
         docdata = parse_doc(doc)
-        writer.add_document(person="simon",title=docdata["title"],abstract=docdata["abstract"])
+        writer.add_document(pmid=pmid,person=name,title=docdata["title"],abstract=docdata["abstract"])
 
 
 def parse_doc(file):

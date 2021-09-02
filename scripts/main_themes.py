@@ -5,9 +5,8 @@ from whoosh.qparser import QueryParser
 
 def main():
     index_folder = Path("../index/")
-    doc_folder = Path("../docs/")
 
-    leaders = list_group_leaders(doc_folder)
+    leaders = list_group_leaders()
 
     ix = index.open_dir(index_folder)
 
@@ -48,21 +47,17 @@ def main():
 
 
 
-def list_group_leaders(folder):
-    doclist = folder.iterdir()
+def list_group_leaders():
+    # We do this based on the names on the mugshot files
+    mugshot_dir = Path("../www/images/people/")
 
-    names = []
+    people = []
 
-    for doc in doclist:
-        filename = doc.stem
+    for file in mugshot_dir.iterdir():
+        name = file.stem        
+        people.append(name)
 
-        name = filename.split("_")[0]
-        name = name.replace("-"," ").title()
-
-        if not name in names:
-            names.append(name)
-
-    return names
+    return people
 
 
 if __name__ == "__main__":

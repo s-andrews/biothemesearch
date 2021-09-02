@@ -1,11 +1,53 @@
 const backend = "/cgi-bin/theme_search.py"
 
+let search_results = ""
+
 $( document ).ready(function() {
     console.log("Running")
     populate_mugshots(undefined)
     $("#searchbox").keyup(update_search)
-
 })
+
+function show_snippets() {
+    short_name = $(this).parent().attr("id")
+    console.log("Clicked on "+short_name)
+
+    // See if we have any snippet data for them stored
+    for (let [name,hits] of Object.entries(search_results)) {
+        name_id = name.toLowerCase()
+        name_id = name_id.replaceAll(" ","_")
+        name_id = name_id.replaceAll("'","")
+
+        if (name_id != short_name) {
+            continue
+        }
+
+        let snippets = $("#snippets")
+        //  Clear the existing snippets
+        snippets.text("")
+
+        // Add their name
+        snippets.append(`<h2>${name}</h2>`)
+
+        for (let i in hits) {
+            hit = hits[i]
+            snippet_html = ""
+
+            for (let j in hit["snippets"]) {
+                snippet_html += `<div class="snippet">...${hit["snippets"][j]}...</div>`
+            }
+
+
+            snippets.append(`
+            <div class="container mb-3">
+            <h5><a target="_pubmed" href="https://pubmed.ncbi.nlm.nih.gov/${hit["pmid"]}">${hit["title"]}</a></h5>
+            ${snippet_html}
+            </div>`)
+        }
+    }
+
+
+}
 
 function populate_mugshots(data) {
     console.log("Populating mugshots")
@@ -48,15 +90,21 @@ function populate_mugshots(data) {
         // as an id tag
         name_id = image_data["name"].toLowerCase()
         name_id = name_id.replaceAll(" ","_")
+        name_id = name_id.replaceAll("'","")
 
         div.append(`<div class="mugwrapper d-inline-block position-relative" id="${name_id}"><span class="collapse badge position-absolute top-100 start-50 text-light p-1 bg-danger">100</span><img class="mugshot" src="${image_data["url"]}" title="${image_data["name"]}" height="75px"></div>`)
 
     }
 
+    // Add callbacks to these new objects
+    $(".mugshot").click(show_snippets)
+ 
 }
 
 function update_search() { 
     search_text = $("#searchbox").val()
+
+    $("#snippets").text("")
 
     if (search_text.length < 3) {
         $(".mugshot").removeClass("faded")
@@ -86,6 +134,9 @@ function add_search_results(data) {
     // as value with a dict with title and snippets
     // in it.
 
+    // Store these results so we can show snippets
+    search_results = data
+
     // Reset any previous results
     $(".mugshot").addClass("faded")
     $("span").hide()
@@ -97,6 +148,7 @@ function add_search_results(data) {
 
         name_id = name.toLowerCase()
         name_id = name_id.replaceAll(" ","_")
+        name_id = name_id.replaceAll("'","")
 
         $("#"+name_id).find("img").removeClass("faded")
 

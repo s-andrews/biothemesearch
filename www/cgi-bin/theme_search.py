@@ -53,10 +53,11 @@ def run_search(term):
             snippets.extend(result.highlights("abstract").split("..."))
 
             snippets = [x for x in snippets if x]
-            
+
             json_data[result["person"]].append({
                 "title":result["title"],
-                "snippets":snippets
+                "snippets":snippets,
+                "pmid":result["pmid"]
             })
 
     send_json(json_data)

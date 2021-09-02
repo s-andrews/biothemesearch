@@ -22,3 +22,26 @@
 .mugshot {
     cursor: pointer;
 }
+
+.snippet {
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    margin-left: 2em;
+}
+
+body {
+    overflow-y: scroll;
+}
+h5 a {
+    color: black;
+    text-decoration: none;
+}
+
+h5 a:hover {
+    color: black;
+    text-decoration: underline;
+}
+
+h5 {
+    font-size:120%;
+}

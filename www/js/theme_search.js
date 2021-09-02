@@ -49,7 +49,7 @@ function populate_mugshots(data) {
         name_id = image_data["name"].toLowerCase()
         name_id = name_id.replaceAll(" ","_")
 
-        div.append(`<div class="mugwrapper d-inline-block position-relative" id="${name_id}"><span class="badge position-absolute top-100 start-50 text-light p-1 bg-danger">100</span><img class="mugshot" src="${image_data["url"]}" title="${image_data["name"]}" height="75px"></div>`)
+        div.append(`<div class="mugwrapper d-inline-block position-relative" id="${name_id}"><span class="collapse badge position-absolute top-100 start-50 text-light p-1 bg-danger">100</span><img class="mugshot" src="${image_data["url"]}" title="${image_data["name"]}" height="75px"></div>`)
 
     }
 
@@ -59,7 +59,8 @@ function update_search() {
     search_text = $("#searchbox").val()
 
     if (search_text.length < 3) {
-        // TODO: Clear previous results
+        $(".mugshot").removeClass("faded")
+        $("span").hide()
         return
     }
     console.log("Searching with "+search_text)
@@ -97,8 +98,12 @@ function add_search_results(data) {
         name_id = name.toLowerCase()
         name_id = name_id.replaceAll(" ","_")
 
-        console.log("Enabling "+name_id)
         $("#"+name_id).find("img").removeClass("faded")
+
+        hit_count = hits.length
+        $("#"+name_id).find("span").show()
+        $("#"+name_id).find("span").text(hit_count)
+
 
     }
 

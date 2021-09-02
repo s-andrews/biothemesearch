@@ -1,0 +1,10 @@
+#mugshots {
+    overflow: hidden;
+    white-space: nowrap;
+    height: 100px;
+}
+
+#searchbox {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}

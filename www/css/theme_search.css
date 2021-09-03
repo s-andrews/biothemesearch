@@ -10,11 +10,12 @@
     transform: translateY(-75%) translateX(-50%) !important;
 }
 
-#searchbox {
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
+#searchwrapper {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    max-width: 400px;
 
+}
 .faded {
     opacity: 0.2
 }
@@ -44,4 +45,21 @@ h5 a:hover {
 
 h5 {
     font-size:120%;
+}
+
+.keyterm {
+    font-size:60%;
+    color:#BBB;
+    cursor: pointer;
+}
+
+.highlightterm {
+    color: black;
+    font-size:75%;
+    font-weight: bold;
+}
+
+#keyterms {
+    line-height: 50%;
+    text-align: center;
 }

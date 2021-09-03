@@ -26,6 +26,9 @@ def dispatch_action(action,form):
 
     if action == "mugshots":
         list_group_leaders()
+    
+    elif action == "keyterms":
+        list_key_terms()
 
     elif action == "search":
         run_search(form["term"].value)
@@ -62,6 +65,31 @@ def run_search(term):
 
     send_json(json_data)
 
+
+def list_key_terms():
+    # Get the list of key terms
+    key_terms_file = Path(__file__).parent.parent.parent / "docs/key_terms.txt"
+
+    key_terms = {}
+
+    with open(key_terms_file) as kf:
+        for line in kf:
+            if not line.strip():
+                continue
+
+            sections = line.strip().split("\t")
+            person = sections[0]
+            person = person.replace(" ","_")
+            person = person.replace("'","")
+            person = person.lower()
+            term = sections[3]
+
+            if not term in key_terms:
+                key_terms[term] = [person]
+            else:
+                key_terms[term].append(person)
+
+    send_json(key_terms)
 
 def list_group_leaders():
     # Get a list of the group leaders from the set of

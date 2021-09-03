@@ -1,16 +1,40 @@
 const backend = "/cgi-bin/theme_search.py"
 
 let search_results = ""
+let key_terms = ""
 
 $( document ).ready(function() {
     console.log("Running")
     populate_mugshots(undefined)
+    populate_key_terms(undefined)
     $("#searchbox").keyup(update_search)
+    $("#clear").click(function(){$("#searchbox").val("");$(".keyterm").removeClass("highlightterm");update_search()})
 })
 
 function show_snippets() {
     short_name = $(this).parent().attr("id")
     console.log("Clicked on "+short_name)
+
+    if (! search_results) {
+        // There isn't a search result so instead we'll 
+        // highlight the key terms for the group leader
+        // they just clicked on
+
+        let ktspans = $(".keyterm")
+
+        // Remove any existing highlights
+        ktspans.removeClass("highlightterm")
+
+        for (let i=0;i<ktspans.length;i++) {
+            let thisterm = ktspans.eq(i).text()
+            // Check whether this gl is associated with that term
+            if (key_terms[thisterm].includes(short_name)) {
+                ktspans.eq(i).addClass("highlightterm")
+            }
+        }
+
+        return
+    }
 
     // See if we have any snippet data for them stored
     for (let [name,hits] of Object.entries(search_results)) {
@@ -101,6 +125,59 @@ function populate_mugshots(data) {
  
 }
 
+function populate_key_terms(data) {
+    console.log("Populating key terms")
+    // Adds the key terms to the opening screen
+
+    // The function can either be called with an undefined
+    // value which will kick off an ajax request to get the
+    // list of group leader mugshots, or it can be called 
+    // by the ajax callback, in which case data will be the 
+    // json list of group leaders
+
+    if (typeof(data) === 'undefined') {
+        // We need to query for the submission data
+        $.ajax(
+            {
+                url: backend,
+                data: {
+                    action: "keyterms"
+                },
+                success: function(data) {
+                    populate_key_terms(data)
+                },
+                error: function(message) {
+                    console.log("Failed to list group leaders "+message)
+                }
+            }
+        )
+        return
+    }
+
+    // We have actual data so fill in the key terms
+    key_terms = data
+
+    div = $("#keyterms")
+
+    let terms = Object.keys(data)
+    terms.sort()
+    for (i in terms) {
+        div.append(` <span class="keyterm">${terms[i]}</span>`)
+    }
+
+    // Add callbacks to these new objects
+    $(".keyterm").click(select_key_term)
+ 
+}
+
+function select_key_term() {
+    let term = $(this).text()
+
+    $("#searchbox").val(term)
+    update_search()
+}
+
+
 function update_search() { 
     search_text = $("#searchbox").val()
 
@@ -108,7 +185,9 @@ function update_search() {
 
     if (search_text.length < 3) {
         $(".mugshot").removeClass("faded")
-        $("span").hide()
+        $(".badge").hide()
+        $("#keyterms").show()
+        search_results = ""
         return
     }
     console.log("Searching with "+search_text)
@@ -139,10 +218,10 @@ function add_search_results(data) {
 
     // Reset any previous results
     $(".mugshot").addClass("faded")
-    $("span").hide()
+    $(".badges").hide()
+    $("#keyterms").hide()
 
-    // First go through the keys to grey out any 
-    // group leaders with no hits.
+    // Go through and highlight group leaders with hits
 
     for (let [name,hits] of Object.entries(data)) {
 
@@ -155,7 +234,6 @@ function add_search_results(data) {
         hit_count = hits.length
         $("#"+name_id).find("span").show()
         $("#"+name_id).find("span").text(hit_count)
-
 
     }
 

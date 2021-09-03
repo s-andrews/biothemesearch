@@ -1,4 +1,5 @@
 import csv
+import sys
 from whoosh import index
 from whoosh.fields import Schema, TEXT, ID
 from whoosh.analysis import StemmingAnalyzer
@@ -6,7 +7,7 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 
 def main():
-    csv_file = Path("../docs/content_export_publication_pubmed_1629963492.csv")
+    csv_file = Path(sys.argv[1])
     index_folder = Path("../index/")
 
     if not index_folder.exists():

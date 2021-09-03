@@ -13,7 +13,7 @@ def main():
 
     qp = QueryParser("person",schema=ix.schema)
 
-    with open("key_terms.txt","w", encoding="utf-8") as kt:
+    with open("../docs/key_terms.txt","w", encoding="utf-8") as kt:
 
         for leader in leaders:
             print("Searching for",leader)

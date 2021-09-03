@@ -7,7 +7,7 @@ $( document ).ready(function() {
     console.log("Running")
     populate_mugshots(undefined)
     populate_key_terms(undefined)
-    $("#searchbox").keyup(update_search)
+    $("#searchbox").keyup(function(){$(".keyterm").removeClass("highlightterm");update_search()})
     $("#clear").click(function(){$("#searchbox").val("");$(".keyterm").removeClass("highlightterm");update_search()})
 })
 

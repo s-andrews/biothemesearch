@@ -1,4 +1,4 @@
-const backend = "/cgi-bin/theme_search.py"
+const backend = "cgi-bin/theme_search.py"
 var name_translation = {}
 
 let search_results = ""

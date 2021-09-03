@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/opt/python39/bin/python3
 import json
 import sys
 from pathlib import Path
@@ -100,7 +100,7 @@ def list_group_leaders():
 
     for image in mugshot_dir.iterdir():
         file = str(image)
-        file = file[file.index("www")+3:].replace("\\","/")
+        file = file[file.index("www")+4:].replace("\\","/")
         name = image.stem
         people.append({"name":name, "url":file})
     

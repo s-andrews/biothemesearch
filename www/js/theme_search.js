@@ -1,4 +1,5 @@
 const backend = "/cgi-bin/theme_search.py"
+var name_translation = {}
 
 let search_results = ""
 let key_terms = ""
@@ -6,13 +7,17 @@ let key_terms = ""
 $( document ).ready(function() {
     console.log("Running")
     populate_mugshots(undefined)
+
     populate_key_terms(undefined)
     $("#searchbox").keyup(function(){$(".keyterm").removeClass("highlightterm");update_search()})
-    $("#clear").click(function(){$("#searchbox").val("");$(".keyterm").removeClass("highlightterm");update_search()})
+    $("#clear").click(function(){$("#personname").text("");$("#searchbox").val("");$(".keyterm").removeClass("highlightterm");update_search()})
 })
 
 function show_snippets() {
-    short_name = $(this).parent().attr("id")
+    let short_name = $(this).parent().attr("id")
+    let long_name = name_translation[short_name]
+
+    $("#personname").html(long_name)
     console.log("Clicked on "+short_name)
 
     if (! search_results) {
@@ -51,7 +56,7 @@ function show_snippets() {
         snippets.text("")
 
         // Add their name
-        snippets.append(`<h2>${name}</h2>`)
+        $("#personname").html(name)
 
         for (let i in hits) {
             hit = hits[i]
@@ -115,6 +120,8 @@ function populate_mugshots(data) {
         name_id = image_data["name"].toLowerCase()
         name_id = name_id.replaceAll(" ","_")
         name_id = name_id.replaceAll("'","")
+
+        name_translation[name_id] = image_data["name"]
 
         div.append(`<div class="mugwrapper d-inline-block position-relative" id="${name_id}"><span class="collapse badge position-absolute top-100 start-50 text-light p-1 bg-danger">100</span><img class="mugshot" src="${image_data["url"]}" title="${image_data["name"]}" height="75px"></div>`)
 
@@ -182,6 +189,7 @@ function update_search() {
     search_text = $("#searchbox").val()
 
     $("#snippets").text("")
+    $("#personname").text("")
 
     if (search_text.length < 3) {
         $(".mugshot").removeClass("faded")
@@ -218,7 +226,7 @@ function add_search_results(data) {
 
     // Reset any previous results
     $(".mugshot").addClass("faded")
-    $(".badges").hide()
+    $(".badge").hide()
     $("#keyterms").hide()
 
     // Go through and highlight group leaders with hits

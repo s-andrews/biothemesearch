@@ -3,7 +3,7 @@
 }
 
 .mugwrapper {
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
 }
 
 .badge {
@@ -48,10 +48,16 @@ h5 {
 }
 
 .keyterm {
-    font-size:60%;
+    font-size:70%;
     color:#BBB;
     cursor: pointer;
 }
+
+.keyterm:hover {
+    color: black;
+    font-weight: bold;
+}
+
 
 .highlightterm {
     color: black;

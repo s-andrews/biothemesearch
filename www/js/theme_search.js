@@ -1,6 +1,4 @@
-const backend = "/cgi-bin/theme_search.py"
-
-// Translates between the short name of a person and their full readable name
+const backend = "cgi-bin/theme_search.py"
 var name_translation = {}
 
 // Gives the hand crafted description of their work

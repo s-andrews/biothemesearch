@@ -72,15 +72,15 @@ Gavin Kelsey	8	0.15	gene
 Gavin Kelsey	9	0.14	dna
 Gavin Kelsey	10	0.13	mouse
 Gavin Kelsey	11	0.12	nesp55
-Gavin Kelsey	12	0.11	deep
-Gavin Kelsey	13	0.11	defined
-Gavin Kelsey	14	0.1	adaptive
-Gavin Kelsey	15	0.1	contribute
-Gavin Kelsey	16	0.1	expression
-Gavin Kelsey	17	0.1	assembly
-Gavin Kelsey	18	0.1	islands
-Gavin Kelsey	19	0.09	ipsc
-Gavin Kelsey	20	0.09	demand
+Gavin Kelsey	12	0.11	imprinting
+Gavin Kelsey	13	0.11	deep
+Gavin Kelsey	14	0.11	defined
+Gavin Kelsey	15	0.1	adaptive
+Gavin Kelsey	16	0.1	contribute
+Gavin Kelsey	17	0.1	expression
+Gavin Kelsey	18	0.1	assembly
+Gavin Kelsey	19	0.1	islands
+Gavin Kelsey	20	0.09	ipsc
 
 Hayley Sharpe	1	0.29	cargo
 Hayley Sharpe	2	0.26	bcc
@@ -139,11 +139,11 @@ Ian McGough	12	0.06	apc
 Ian McGough	13	0.06	atp9a
 Ian McGough	14	0.06	distance
 Ian McGough	15	0.06	dopey2
-Ian McGough	16	0.06	frizzled
-Ian McGough	17	0.06	ligand
-Ian McGough	18	0.06	moiety
-Ian McGough	19	0.06	mon2
-Ian McGough	20	0.06	moonlights
+Ian McGough	16	0.06	exosomes
+Ian McGough	17	0.06	frizzled
+Ian McGough	18	0.06	ligand
+Ian McGough	19	0.06	moiety
+Ian McGough	20	0.06	mon2
 
 Jon Houseley	1	0.3	ribosomal
 Jon Houseley	2	0.29	muscleblind
@@ -162,7 +162,7 @@ Jon Houseley	14	0.18	cug
 Jon Houseley	15	0.17	exosome
 Jon Houseley	16	0.16	eukaryotic
 Jon Houseley	17	0.15	drosophila
-Jon Houseley	18	0.15	exon
+Jon Houseley	18	0.15	exons
 Jon Houseley	19	0.14	splicing
 Jon Houseley	20	0.14	tramp
 
@@ -355,7 +355,7 @@ Oliver Florey	18	0.11	mitotic
 Oliver Florey	19	0.11	lipid
 Oliver Florey	20	0.11	mtorc1
 
-Olivia Casanueva	1	0.29	worm
+Olivia Casanueva	1	0.29	worms
 Olivia Casanueva	2	0.19	metabolic
 Olivia Casanueva	3	0.18	elegans
 Olivia Casanueva	4	0.16	achieved
@@ -394,7 +394,7 @@ Patrick Varga-Weisz	15	0.1	depressive
 Patrick Varga-Weisz	16	0.1	hdac6
 Patrick Varga-Weisz	17	0.1	like
 Patrick Varga-Weisz	18	0.1	mediated
-Patrick Varga-Weisz	19	0.09	age
+Patrick Varga-Weisz	19	0.09	against
 Patrick Varga-Weisz	20	0.09	gut
 
 Peter Rugg-Gunn	1	0.29	nspcs
@@ -441,7 +441,7 @@ Phill Hawkins	20	0.13	p40
 
 Rahul Samant	1	0.32	hsp90
 Rahul Samant	2	0.28	misfolded
-Rahul Samant	3	0.24	clients
+Rahul Samant	3	0.24	client
 Rahul Samant	4	0.21	ubiquitin
 Rahul Samant	5	0.21	protein
 Rahul Samant	6	0.16	chaperone

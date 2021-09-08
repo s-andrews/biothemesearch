@@ -1,7 +1,15 @@
 const backend = "/cgi-bin/theme_search.py"
+
+// Translates between the short name of a person and their full readable name
 var name_translation = {}
 
+// Gives the hand crafted description of their work
+var person_descriptions = {}
+
+// Stores the current search results
 let search_results = ""
+
+// Stores the set of key search terms and which group leaders they apply to
 let key_terms = ""
 
 $( document ).ready(function() {
@@ -9,8 +17,11 @@ $( document ).ready(function() {
     populate_mugshots(undefined)
 
     populate_key_terms(undefined)
+
+    populate_person_descriptions()
+
     $("#searchbox").keyup(function(){$(".keyterm").removeClass("highlightterm");update_search()})
-    $("#clear").click(function(){$("#personname").text("");$("#searchbox").val("");$(".keyterm").removeClass("highlightterm");update_search()})
+    $("#clear").click(function(){$("#person_description").text("");$("#personname").text("Babraham Research Interest Search");$("#searchbox").val("");$(".keyterm").removeClass("highlightterm");update_search()})
 })
 
 function show_snippets() {
@@ -24,6 +35,9 @@ function show_snippets() {
         // There isn't a search result so instead we'll 
         // highlight the key terms for the group leader
         // they just clicked on
+
+        // We can add their hand crafted description
+        $("#person_description").html(person_descriptions[short_name])
 
         let ktspans = $(".keyterm")
 
@@ -40,6 +54,9 @@ function show_snippets() {
 
         return
     }
+
+    // There are search results so clear any description which is showing
+    $("#person_description").html("")
 
     // See if we have any snippet data for them stored
     for (let [name,hits] of Object.entries(search_results)) {
@@ -177,6 +194,29 @@ function populate_key_terms(data) {
  
 }
 
+function populate_person_descriptions() {
+    console.log("Populating person descriptions terms")
+    // Stores the hand crafted person descriptions so 
+    // we can show them later
+    // We need to query for the submission data
+    $.ajax(
+        {
+            url: backend,
+            data: {
+                action: "descriptions"
+            },
+            success: function(data) {
+                person_descriptions = data
+            },
+            error: function(message) {
+                console.log("Failed to get descriptions "+message)
+            }
+        }
+    )
+}
+
+
+
 function select_key_term() {
     let term = $(this).text()
 
@@ -189,7 +229,8 @@ function update_search() {
     search_text = $("#searchbox").val()
 
     $("#snippets").text("")
-    $("#personname").text("")
+    $("#personname").text("Babraham Research Interest Search")
+    $("#person_description").html("")
 
     if (search_text.length < 3) {
         $(".mugshot").removeClass("faded")

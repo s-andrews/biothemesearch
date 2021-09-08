@@ -30,6 +30,9 @@ def dispatch_action(action,form):
     elif action == "keyterms":
         list_key_terms()
 
+    elif action == "descriptions":
+        list_descriptions()
+
     elif action == "search":
         run_search(form["term"].value)
 
@@ -90,6 +93,25 @@ def list_key_terms():
                 key_terms[term].append(person)
 
     send_json(key_terms)
+
+def list_descriptions():
+    # Get the list of descriptions
+    descriptions_file = Path(__file__).parent.parent.parent / "docs/person_descriptions.json"
+
+    with open(descriptions_file) as df:
+        raw_descriptions = json.load(df)
+
+        # We need to change the names to be the short versions
+        fixed_descriptions = {}
+
+        for name,description in raw_descriptions.items():
+            name = name.strip().lower()
+            name = name.replace(" ","_")
+            name = name.replace("'","")
+
+            fixed_descriptions[name] = description
+
+        send_json(fixed_descriptions)
 
 def list_group_leaders():
     # Get a list of the group leaders from the set of

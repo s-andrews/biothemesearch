@@ -23,6 +23,11 @@ $( document ).ready(function() {
 })
 
 function show_snippets() {
+    // If they've clicked on a faded icon then don't do anything
+    if ($(this).hasClass("faded")) {
+        return
+    }
+
     let short_name = $(this).parent().attr("id")
     let long_name = name_translation[short_name]
 

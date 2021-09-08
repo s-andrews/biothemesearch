@@ -122,7 +122,7 @@ def list_group_leaders():
 
     for image in mugshot_dir.iterdir():
         file = str(image)
-        file = file[file.index("www")+3:].replace("\\","/")
+        file = file[file.index("www")+4:].replace("\\","/")
         name = image.stem
         people.append({"name":name, "url":file})
     

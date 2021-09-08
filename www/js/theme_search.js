@@ -148,7 +148,7 @@ function populate_mugshots(data) {
     }
 
     // Add callbacks to these new objects
-    $(".mugshot").click(show_snippets)
+    $(".mugshot").click(show_snippets)    
  
 }
 
